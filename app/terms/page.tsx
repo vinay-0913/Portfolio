@@ -60,7 +60,7 @@ export default function TermsPage() {
         </div>
 
         <p className="text-sm text-white/40 leading-relaxed">
-          These Terms of Use ("Terms") constitute a legally binding contract between you ("User", "You") and Adarsh Singh ("Owner", "I", "Me"). By accessing, browsing
+          These Terms of Use ("Terms") constitute a legally binding contract between you ("User", "You") and Vinay Ratnakar ("Owner", "I", "Me"). By accessing, browsing
           you acknowledge that you have read, understood, and unconditionally agree to be bound by these Terms.
         </p>
       </div>
@@ -146,7 +146,7 @@ export default function TermsPage() {
         <p className="text-[15px] text-white/40 leading-[1.8]">
           All content on this website including but not limited to source code, UI/UX designs, animations, 
           visual elements, graphics, SVGs, typography arrangements, color schemes, layout architecture, components, 
-          and overall aesthetics are the exclusive intellectual property of Adarsh Singh, protected under international copyright laws.
+          and overall aesthetics are the exclusive intellectual property of Vinay Ratnakar, protected under international copyright laws.
         </p>
       </div>
 

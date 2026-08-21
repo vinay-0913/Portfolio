@@ -25,7 +25,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Adarsh Singh - Developer, Freelancer",
+  title: "Vinay Ratnakar - Developer, Freelancer",
   description: "Modern developer portfolio",
 };
 

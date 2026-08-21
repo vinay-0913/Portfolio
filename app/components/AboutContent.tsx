@@ -28,7 +28,7 @@ export default function AboutContent() {
             <br />
             I'm{" "}
             <span className="italic bg-gradient-to-r from-gray-300 via-gray-400 to-gray-200 text-transparent bg-clip-text">
-              Adarsh
+              Vinay
             </span>
           </h2>
 

@@ -50,7 +50,7 @@ export default function HeroSection() {
         </h1>
 
         <p className="mt-8 text-white/70 leading-relaxed max-w-lg">
-          I'm Adarsh Singh, an engineering-driven developer who turns complex
+          I'm Vinay Ratnakar, an engineering-driven developer who turns complex
           technical challenges into high-speed web products. I manage the entire
           stack with a focus on clean, reusable code and seamless performance.
           I excel in Next.js and full-stack architecture, always delivering

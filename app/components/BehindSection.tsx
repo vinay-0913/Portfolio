@@ -33,7 +33,7 @@ export default function BehindSection() {
 
           <div>
             <h3 className="text-lg font-semibold mb-6">
-              Adarsh’s Github
+              Vinay's Github
             </h3>
 
             <p className="text-xs text-white/50 mb-2">

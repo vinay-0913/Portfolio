@@ -2,7 +2,6 @@
 
 import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment } from "@react-three/drei";
 import * as THREE from "three";
 
 interface GlossyObjectProps {
@@ -178,7 +177,7 @@ export default function Scene({
       <pointLight position={[3, -2, -3]} intensity={0.5} />
 
       {/* Reflections */}
-      <Environment preset="city" />
+      <ambientLight intensity={0.5} />
 
       <GlossyObject
         rotationY={rotationY}
