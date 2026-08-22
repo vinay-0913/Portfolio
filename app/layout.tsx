@@ -46,10 +46,8 @@ export default function RootLayout({
         />
       </head>
 
-      <body className={`${inter.className} ${dancing.variable} bg-black text-white`}>
+      <body className={`${inter.className} ${dancing.variable} bg-[#f5f3ef] text-zinc-900`}>
         <Providers>
-          <Navbar />
-          <TopLeft />
           {children}
 
           {/* ✅ TOASTER HERE */}

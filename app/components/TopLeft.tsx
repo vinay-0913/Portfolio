@@ -13,13 +13,13 @@ export default function TopLeft() {
       style={{ opacity }}
       className="fixed top-6 left-6 flex items-center gap-3 text-xs z-50"
     >
-      <span className="font-semibold bg-gradient-to-r from-gray-400 via-gray-200 to-gray-500 text-transparent bg-clip-text tracking-wide">
-  AS
-</span>
-      <span className="text-gray-600">|</span>
+      <span className="font-semibold bg-gradient-to-r from-zinc-800 via-zinc-600 to-zinc-900 text-transparent bg-clip-text tracking-wide text-sm font-mono">
+        VR
+      </span>
+      <span className="text-zinc-300">|</span>
 
-      <div className="flex flex-col gap-[2px] text-gray-400">
-        <span className="uppercase tracking-[0.2em] text-[10px]">
+      <div className="flex flex-col gap-[2px] text-zinc-500">
+        <span className="uppercase tracking-[0.2em] text-[10px] font-medium">
           Creative Developer
         </span>
 

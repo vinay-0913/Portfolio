@@ -43,11 +43,11 @@ export default function Home() {
 
   return (
     <>
-      <main className="relative min-h-screen bg-black text-white flex items-center justify-center px-6 overflow-hidden">
+      <main className="relative min-h-screen bg-[#f5f3ef] text-gray-900 flex items-center justify-center px-6 overflow-hidden">
 
         {/* BACKGROUND GLOW */}
         <div className="absolute inset-0 -z-10">
-          <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-purple-600 opacity-20 blur-[120px] rounded-full -translate-x-1/2 -translate-y-1/2 animate-[pulse_6s_ease-in-out_infinite]" />
+          <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-purple-200 opacity-20 blur-[120px] rounded-full -translate-x-1/2 -translate-y-1/2 animate-[pulse_6s_ease-in-out_infinite]" />
         </div>
 
         {/* TOP LEFT */}
@@ -66,7 +66,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
-            className="text-sm tracking-widest text-gray-400 mb-6"
+            className="text-sm tracking-widest text-gray-500 mb-6"
           >
             CREATIVE DEVELOPER
           </motion.p>
@@ -89,7 +89,7 @@ export default function Home() {
             className="mt-4 text-3xl md:text-5xl font-semibold"
           >
             Crafting impactful{" "}
-            <span className={`${playfair.className} text-gray-400`}>
+            <span className={`${playfair.className} text-gray-500`}>
               Products
             </span>{" "}
             that matter
@@ -100,7 +100,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 1 }}
-            className="mt-6 text-gray-400 max-w-2xl mx-auto"
+            className="mt-6 text-gray-500 max-w-2xl mx-auto"
           >
             I design and develop modern web applications that deliver seamless,
             impactful user experiences.
@@ -115,7 +115,7 @@ export default function Home() {
             <span className="text-green-500 text-lg">📍</span>
 
             <div className="flex flex-col leading-tight">
-              <span className="text-white text-[12px] uppercase tracking-[0.15em]">
+              <span className="text-gray-800 text-[12px] uppercase tracking-[0.15em]">
                 Based in Raipur,
               </span>
               <span className="text-gray-500 text-[11px] uppercase tracking-[0.15em]">
@@ -136,7 +136,7 @@ export default function Home() {
           </div>
 
           <div className="leading-tight">
-            <p className="text-white text-[12px] uppercase tracking-[0.15em]">
+            <p className="text-gray-800 text-[12px] uppercase tracking-[0.15em]">
               FULL STACK DEV,
             </p>
             <p className="text-gray-500 text-[11px] uppercase tracking-[0.15em]">
@@ -149,19 +149,19 @@ export default function Home() {
       {/* ================= BENTO + CLOCK ================= */}
       <div className="relative">
         {/* ================= BENTO SECTION ================= */}
-        <section className=" bg-black py-16 max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-6">
+        <section className="bg-[#f5f3ef] py-16 max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-6">
 
           {/* LEFT CARD */}
           <motion.div
             initial={{ opacity: 0, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="md:col-span-1 h-[520px] bg-white/[0.03] border border-white/10 rounded-4xl p-6 backdrop-blur-xl flex flex-col justify-between"
+            className="md:col-span-1 h-[520px] bg-white border border-gray-200 rounded-4xl p-6 shadow-sm flex flex-col justify-between"
           >
             <div>
               <h2 className="text-[26px] font-semibold">
                 Vinay{" "}
-                <span className={`${playfair.className} italic text-gray-400`}>
+                <span className={`${playfair.className} italic text-gray-500`}>
                   Ratnakar
                 </span>
               </h2>
@@ -180,7 +180,7 @@ export default function Home() {
                 href="https://www.linkedin.com/in/vinay-ratnakar-650a05264/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-white transition"
+                className="hover:text-gray-900 transition"
               >
                 <svg width="18" height="18" fill="currentColor">
                   <path d="M16 0H2C.9 0 0 .9 0 2v12c0 1.1.9 2 2 2h14c1.1 
@@ -198,7 +198,7 @@ export default function Home() {
                 href="https://github.com/vinay-0913/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-white transition"
+                className="hover:text-gray-900 transition"
               >
                 <svg width="18" height="18" fill="currentColor">
                   <path d="M9 0C4 0 0 4 0 9c0 4 2.6 7.4 6.2 
@@ -224,11 +224,11 @@ export default function Home() {
             initial={{ opacity: 0, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="md:col-span-2 h-[520px] relative rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl overflow-hidden"
+            className="md:col-span-2 h-[520px] relative rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden"
           >
             {/* SOFT GLOW (same feel as left) */}
             <div className="absolute inset-0 rounded-2xl 
-  bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.05),transparent_60%)]" />
+  bg-[radial-gradient(circle_at_30%_30%,rgba(0,0,0,0.02),transparent_60%)]" />
 
             {/* CONTENT */}
             <div className="relative z-10 p-12 flex flex-col h-full justify-start">
@@ -251,7 +251,7 @@ export default function Home() {
                     </span>
                   </h2>
 
-                  <p className="mt-5 text-gray-400 text-[13px] leading-relaxed">
+                  <p className="mt-5 text-gray-500 text-[13px] leading-relaxed">
                     I strive to create digital experiences that feel organic and human.
                   </p>
                 </div>
@@ -264,8 +264,8 @@ export default function Home() {
                         key={t}
                         onClick={() => setActiveTab(t)}
                         className={`px-2 py-[2px] text-[10px] rounded-full border cursor-pointer transition ${activeTab === t
-                          ? "border-purple-500 text-purple-400"
-                          : "border-white/10 text-gray-300 hover:border-white/30"
+                          ? "border-purple-500 text-purple-600"
+                          : "border-gray-300 text-gray-500 hover:border-gray-400"
                           }`}
                       >
                         {t}
@@ -273,14 +273,14 @@ export default function Home() {
                     ))}
                   </div>
 
-                  <p className="text-white text-xs font-medium">
+                  <p className="text-gray-900 text-xs font-medium">
                     {activeTab === "Motion" && "Micro-interactions"}
                     {activeTab === "Type" && "Typography"}
                     {activeTab === "Feedback" && "Responsiveness"}
                     {activeTab === "Craft" && "Attention to detail"}
                   </p>
 
-                  <p className="mt-3 text-gray-400 text-xs max-w-[260px] leading-relaxed">
+                  <p className="mt-3 text-gray-500 text-xs max-w-[260px] leading-relaxed">
                     {activeTab === "Motion" &&
                       "Subtle movement that confirms intent — never distracting."}
 
@@ -304,18 +304,18 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
 
-            className="md:col-span-1 h-[520px] bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col justify-between"
+            className="md:col-span-1 h-[520px] bg-white shadow-sm border border-gray-200 rounded-2xl p-6 flex flex-col justify-between"
           >
             {/* SOFT GLOW */}
             <div className="absolute inset-0 rounded-2xl 
-  bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.05),transparent_60%)]" />
+  bg-[radial-gradient(circle_at_30%_30%,rgba(0,0,0,0.02),transparent_60%)]" />
             {/* TOP */}
             <div className="flex justify-between">
-              <div className="w-8 h-8 border border-white/10 rounded-full flex items-center justify-center">
-                <div className="w-2 h-2 bg-white rounded-full" />
+              <div className="w-8 h-8 border border-gray-200 rounded-full flex items-center justify-center">
+                <div className="w-2 h-2 bg-gray-800 rounded-full" />
               </div>
 
-              <div className="flex items-center gap-2 text-xs px-3 py-1 border border-white/10 rounded-full">
+              <div className="flex items-center gap-2 text-xs px-3 py-1 border border-gray-200 rounded-full text-gray-700">
                 <span className="w-2 h-2 bg-green-500 rounded-full" />
                 Available
               </div>
@@ -326,12 +326,12 @@ export default function Home() {
               <h2 className="text-2xl font-bold leading-tight">
                 LET’S BUILD <br />
                 SOMETHING <br />
-                <span className={`${playfair.className} italic text-gray-400`}>
+                <span className={`${playfair.className} italic text-gray-500`}>
                   that works.
                 </span>
               </h2>
 
-              <p className="mt-6 text-white font-medium">
+              <p className="mt-6 text-gray-900 font-medium">
 
               </p>
             </div>
@@ -343,17 +343,17 @@ w-full py-2.5 px-5   /* ⬅️ reduced height + width */
 rounded-full 
 relative overflow-hidden
 
-bg-gradient-to-r from-gray-700 via-gray-500 to-gray-800
+bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900
 text-white text-sm font-semibold tracking-[0.12em]
 
-border border-white/10
+border border-gray-300
 backdrop-blur-md
 
 transition-all duration-300
 
 hover:scale-[1.02]
-hover:shadow-[0_8px_20px_rgba(255,255,255,0.06)]
-hover:from-gray-600 hover:via-gray-400 hover:to-gray-700
+hover:shadow-[0_8px_20px_rgba(0,0,0,0.12)]
+hover:from-gray-700 hover:via-gray-600 hover:to-gray-800
 
 active:scale-[0.98]
 ">
@@ -378,9 +378,9 @@ active:scale-[0.98]
 
           <Showcase />
           <SkillsSection />
-          <Ticker />
+
           <HeroSection />
-          <Testimonials />
+
           <BehindSection />
           <HeroSection2 />
 

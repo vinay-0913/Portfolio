@@ -27,29 +27,29 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="bg-black text-white py-28 px-6 md:px-16 flex flex-col md:flex-row items-center justify-between gap-20 overflow-hidden">
+    <section className="bg-[#f5f3ef] text-zinc-900 py-28 px-6 md:px-16 flex flex-col md:flex-row items-center justify-between gap-20 overflow-hidden max-w-7xl mx-auto">
       
       {/* LEFT */}
       <div className="max-w-2xl">
 
-        <p className="text-xs tracking-[0.3em] text-white/60 mb-6">
+        <p className="text-xs tracking-[0.3em] font-semibold text-zinc-400 mb-6 uppercase">
           A QUICK GLANCE
         </p>
 
-        <h1 className="text-[42px] md:text-[64px] lg:text-[50px] font-semibold leading-[1.1]">
+        <h1 className="text-[40px] md:text-[56px] font-semibold leading-[1.1] text-zinc-900">
           <span className="block">
             Building the bridge between
           </span>
 
           <span className="block">
             ideas and{" "}
-            <span className="font-serif italic bg-gradient-to-r from-gray-600 via-gray-400 to-gray-700 text-transparent bg-clip-text">
+            <span className="font-serif italic bg-gradient-to-r from-zinc-900 via-zinc-600 to-zinc-800 text-transparent bg-clip-text">
               experiences
             </span>
           </span>
         </h1>
 
-        <p className="mt-8 text-white/70 leading-relaxed max-w-lg">
+        <p className="mt-8 text-zinc-600 leading-relaxed max-w-lg text-[15px]">
           I'm Vinay Ratnakar, an engineering-driven developer who turns complex
           technical challenges into high-speed web products. I manage the entire
           stack with a focus on clean, reusable code and seamless performance.
@@ -59,33 +59,36 @@ export default function HeroSection() {
           My code is built to last, helping your startup reach the next level!
         </p>
 
-        <p className="mt-4 text-white/70 max-w-lg">
+        <p className="mt-4 text-zinc-500 max-w-lg text-[14px]">
           Building scalable solutions and crafting modern digital experiences.
         </p>
 
         {/* SOCIAL */}
-        <div className="flex items-center gap-5 mt-8 text-white/60">
+        <div className="flex items-center gap-5 mt-8 text-zinc-500">
 
           <a
-            href="https://www.linkedin.com/in/adarshsinghh13"
+            href="https://www.linkedin.com/in/vinay-ratnakar-650a05264/"
             target="_blank"
-            className="hover:text-white transition text-lg"
+            rel="noopener noreferrer"
+            className="hover:text-zinc-900 transition text-lg"
           >
             <FaLinkedin />
           </a>
 
           <a
-            href="https://github.com/adarshsinghh13"
+            href="https://github.com/vinay-0913/"
             target="_blank"
-            className="hover:text-white transition text-lg"
+            rel="noopener noreferrer"
+            className="hover:text-zinc-900 transition text-lg"
           >
             <FaGithub />
           </a>
 
           <a
-            href="https://x.com/adarshsinghh13"
+            href="https://x.com/"
             target="_blank"
-            className="hover:text-white transition text-lg"
+            rel="noopener noreferrer"
+            className="hover:text-zinc-900 transition text-lg"
           >
             <FaTwitter />
           </a>
@@ -95,11 +98,11 @@ export default function HeroSection() {
         {/* BUTTON */}
         <button
           onClick={handleNavigation}
-          className="mt-8 inline-flex items-center gap-3 text-sm text-white group"
+          className="mt-8 inline-flex items-center gap-3 text-sm font-medium text-zinc-900 group cursor-pointer"
         >
           Dive in deeper
 
-          <span className="w-7 h-7 flex items-center justify-center border border-white/20 rounded-full transition-all duration-300 group-hover:translate-x-1 group-hover:border-white">
+          <span className="w-8 h-8 flex items-center justify-center border border-zinc-300 rounded-full transition-all duration-300 group-hover:translate-x-1 group-hover:border-zinc-900 group-hover:bg-zinc-900 group-hover:text-white">
             →
           </span>
         </button>
@@ -115,13 +118,13 @@ export default function HeroSection() {
           return (
             <motion.div
               key={i}
-              className="absolute w-full h-full rounded-2xl overflow-hidden"
+              className="absolute w-full h-full rounded-3xl overflow-hidden shadow-[0_15px_35px_rgba(0,0,0,0.1)] border border-white/80"
               animate={{
-                x: position === 0 ? 0 : position === 1 ? 80 : -80,
+                x: position === 0 ? 0 : position === 1 ? 70 : -70,
                 scale: position === 0 ? 1 : 0.9,
-                rotate: position === 0 ? 0 : position === 1 ? 8 : -8,
+                rotate: position === 0 ? 0 : position === 1 ? 6 : -6,
                 zIndex: position === 0 ? 3 : position === 1 ? 2 : 1,
-                opacity: position === 2 ? 0.6 : 1,
+                opacity: position === 2 ? 0.5 : 1,
               }}
               transition={{
                 duration: 0.8,
@@ -130,6 +133,7 @@ export default function HeroSection() {
             >
               <img
                 src={img}
+                alt="Highlight"
                 className="w-full h-full object-cover"
               />
             </motion.div>

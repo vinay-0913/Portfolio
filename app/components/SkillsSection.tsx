@@ -1,42 +1,26 @@
 "use client";
 
-import { useRef, Suspense, memo, useState } from "react";
+import { useRef, memo, useState } from "react";
 import {
   useScroll,
   useTransform,
-  useSpring,
   motion,
-  useMotionValueEvent,
 } from "framer-motion";
-import dynamic from "next/dynamic";
-
-// Dynamically import Scene to avoid SSR issues with WebGL
-const Scene = dynamic(() => import("./Scene"), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-full flex items-center justify-center">
-      <div
-        className="w-20 h-20 rounded-full animate-pulse"
-        style={{ border: "1px solid rgba(255,255,255,0.08)" }}
-      />
-    </div>
-  ),
-});
 
 // ─── Skills Data ────────────────────────────────────────────────────────────
 const SKILLS = [
-  { label: "React.js",       icon: "⚛" },
-  { label: "Next.js",        icon: "▲" },
-  { label: "TypeScript",     icon: "TS" },
-  { label: "Tailwind CSS",   icon: "◈" },
-  { label: "Node.js",        icon: "⬡" },
-  { label: "MongoDB",        icon: "🍃" },
-  { label: "PostgreSQL",     icon: "⬡" },
-  { label: "GraphQL",        icon: "◇" },
-  { label: "Framer Motion",  icon: "✦" },
-  { label: "Three.js",       icon: "△" },
-  { label: "Docker",         icon: "⬢" },
-  { label: "AWS",            icon: "☁" },
+  { label: "React.js", icon: "⚛" },
+  { label: "Next.js", icon: "▲" },
+  { label: "TypeScript", icon: "TS" },
+  { label: "Tailwind CSS", icon: "◈" },
+  { label: "Node.js", icon: "⬡" },
+  { label: "MongoDB", icon: "🍃" },
+  { label: "PostgreSQL", icon: "⬡" },
+  { label: "GraphQL", icon: "◇" },
+  { label: "Framer Motion", icon: "✦" },
+  { label: "Three.js", icon: "△" },
+  { label: "Docker", icon: "⬢" },
+  { label: "AWS", icon: "☁" },
 ];
 
 // ─── Skill Badge ─────────────────────────────────────────────────────────────
@@ -58,37 +42,31 @@ const SkillBadge = memo(function SkillBadge({
       viewport={{ once: true, margin: "-40px" }}
       transition={{
         duration: 0.55,
-        delay: index * 0.045,
+        delay: index * 0.04,
         ease: [0.22, 1, 0.36, 1],
       }}
-      whileHover={{ scale: 1.07, y: -2 }}
+      whileHover={{ scale: 1.05, y: -2 }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
-      className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl cursor-default select-none"
+      className="flex items-center gap-3 px-4 py-2.5 rounded-xl cursor-default select-none transition-all duration-300"
       style={{
-        background: hovered ? "rgba(255,255,255,0.07)" : "rgba(255,255,255,0.03)",
-        border: `1px solid ${hovered ? "rgba(255,255,255,0.16)" : "rgba(255,255,255,0.08)"}`,
-        backdropFilter: "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)",
+        background: hovered ? "#ffffff" : "rgba(255, 255, 255, 0.7)",
+        border: `1px solid ${hovered ? "rgba(0, 0, 0, 0.15)" : "rgba(0, 0, 0, 0.08)"}`,
         boxShadow: hovered
-          ? "0 8px 32px rgba(70, 90, 255, 0.18), inset 0 1px 0 rgba(255,255,255,0.1)"
-          : "0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)",
-        transition: "background 0.25s, border-color 0.25s, box-shadow 0.25s",
+          ? "0 10px 25px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.04)"
+          : "0 2px 8px rgba(0, 0, 0, 0.02)",
       }}
     >
       <span
-        className="text-xs font-mono w-4 text-center"
-        style={{ color: "rgba(255,255,255,0.35)" }}
+        className="text-xs font-mono w-4 text-center font-bold text-zinc-500"
       >
         {icon}
       </span>
       <span
-        className="text-sm font-medium"
+        className="text-sm font-medium text-zinc-800"
         style={{
-          color: hovered ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.65)",
           fontFamily: "'DM Sans', sans-serif",
-          letterSpacing: "0.02em",
-          transition: "color 0.25s",
+          letterSpacing: "0.01em",
         }}
       >
         {label}
@@ -101,31 +79,10 @@ const SkillBadge = memo(function SkillBadge({
 export default function SkillsSection() {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Track scroll through the tall container
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
   });
-
-  // ── 3D rotation mapped from scroll ──────────────────────────────────────
-  const rawRotY = useTransform(scrollYProgress, [0, 1], [0, Math.PI * 7]);
-  const rawRotX = useTransform(scrollYProgress, [0, 0.5, 1], [0.15, 0.7, 0.15]);
-  const rawScale = useTransform(
-    scrollYProgress,
-    [0, 0.12, 0.85, 1],
-    [0.65, 1.0, 1.0, 0.8]
-  );
-
-  // Spring-smooth the raw values so motion feels organic
-  const springRotY  = useSpring(rawRotY,  { stiffness: 55, damping: 22, mass: 0.9 });
-  const springRotX  = useSpring(rawRotX,  { stiffness: 55, damping: 22, mass: 0.9 });
-  const springScale = useSpring(rawScale, { stiffness: 75, damping: 28, mass: 0.6 });
-
-  // Feed spring values into React state → R3F canvas
-  const [scene, setScene] = useState({ ry: 0, rx: 0.15, s: 0.65 });
-  useMotionValueEvent(springRotY,  "change", (v) => setScene((p) => ({ ...p, ry: v })));
-  useMotionValueEvent(springRotX,  "change", (v) => setScene((p) => ({ ...p, rx: v })));
-  useMotionValueEvent(springScale, "change", (v) => setScene((p) => ({ ...p, s:  v })));
 
   // ── UI fade / slide animations ───────────────────────────────────────────
   const headingOpacity = useTransform(
@@ -134,49 +91,44 @@ export default function SkillsSection() {
   const headingY = useTransform(scrollYProgress, [0, 0.08], [28, 0]);
 
   const badgesOpacity = useTransform(
-    scrollYProgress, [0.42, 0.56, 0.85, 1], [0, 1, 1, 0]
+    scrollYProgress, [0.35, 0.5, 0.85, 1], [0, 1, 1, 0]
   );
-  const badgesY = useTransform(scrollYProgress, [0.42, 0.56], [24, 0]);
+  const badgesY = useTransform(scrollYProgress, [0.35, 0.5], [24, 0]);
 
   return (
     <>
-      {/* ── Fonts + local CSS ── */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800;900&display=swap');
 
-        .skill-gradient-text {
-  background: linear-gradient(130deg, #6b7280 0%, #d1d5db 45%, #4b5563 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+        .skill-gradient-text-light {
+          background: linear-gradient(130deg, #18181b 0%, #71717a 50%, #27272a 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
       `}</style>
 
-      {/* ── Tall scroll container (drives all animations) ── */}
       <section
         ref={containerRef}
-        style={{ height: "280vh", position: "relative", background: "#050507" }}
+        style={{ height: "240vh", position: "relative", background: "#f5f3ef" }}
       >
-        {/* ── Sticky viewport ── */}
         <div
-  style={{
-    position: "sticky",
-    top: 0,
-    height: "100vh",
-    overflow: "hidden",
-    background: "linear-gradient(to bottom, #0a0a0a, #111111, #0a0a0a)",
-    borderRadius: "24px",
-    margin: "",
-  }}
->
-          {/* Atmospheric background radial */}
+          style={{
+            position: "sticky",
+            top: 0,
+            height: "100vh",
+            overflow: "hidden",
+            background: "#f5f3ef",
+          }}
+        >
+          {/* Atmospheric subtle radial for depth */}
           <div
             aria-hidden
             style={{
               position: "absolute",
               inset: 0,
               background:
-                "radial-gradient(ellipse 65% 45% at 50% 58%, rgba(55,75,255,0.1) 0%, transparent 68%)",
+                "radial-gradient(ellipse 60% 45% at 50% 50%, rgba(255, 255, 255, 0.8) 0%, transparent 70%)",
               pointerEvents: "none",
             }}
           />
@@ -188,15 +140,15 @@ export default function SkillsSection() {
               position: "absolute",
               inset: 0,
               backgroundImage: `
-                linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px)
+                linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px)
               `,
-              backgroundSize: "80px 80px",
+              backgroundSize: "60px 60px",
               pointerEvents: "none",
             }}
           />
 
-          {/* ── Center layout ── */}
+          {/* Center layout */}
           <div
             style={{
               position: "relative",
@@ -205,8 +157,9 @@ export default function SkillsSection() {
               alignItems: "center",
               justifyContent: "center",
               height: "100%",
-              gap: 0,
+              gap: "24px",
               padding: "0 24px",
+              zIndex: 10,
             }}
           >
             {/* Heading */}
@@ -219,10 +172,10 @@ export default function SkillsSection() {
                   margin: "0 0 12px",
                   fontFamily: "'DM Sans', sans-serif",
                   fontSize: "11px",
-                  fontWeight: 500,
+                  fontWeight: 600,
                   letterSpacing: "0.38em",
                   textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.22)",
+                  color: "#a1a1aa",
                 }}
               >
                 My Skillset
@@ -231,65 +184,30 @@ export default function SkillsSection() {
                 style={{
                   margin: 0,
                   fontFamily: "'Syne', sans-serif",
-                  fontSize: "clamp(44px, 7vw, 76px)",
+                  fontSize: "clamp(40px, 6vw, 70px)",
                   fontWeight: 900,
-                  lineHeight: 1.05,
+                  lineHeight: 1.1,
                   letterSpacing: "-0.02em",
                 }}
               >
-                <span style={{ color: "rgba(255,255,255,0.92)" }}>The Magic </span>
-                <span className="skill-gradient-text">Behind</span>
+                <span className="text-zinc-900">The Magic </span>
+                <span className="skill-gradient-text-light">Behind</span>
               </h2>
             </motion.div>
-
-            {/* 3D Canvas */}
-            <div
-              style={{
-                position: "relative",
-                width: "min(400px, 82vw)",
-                height: "min(400px, 52vh)",
-                marginTop: "-8px",
-                marginBottom: "-8px",
-                zIndex: 10,
-              }}
-            >
-              <Suspense fallback={null}>
-                <Scene
-                  rotationY={scene.ry}
-                  rotationX={scene.rx}
-                  scale={scene.s}
-                />
-              </Suspense>
-
-              {/* Ground reflection glow */}
-              <div
-                aria-hidden
-                style={{
-                  position: "absolute",
-                  bottom: "8%",
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  width: "180px",
-                  height: "30px",
-                  background:
-                    "radial-gradient(ellipse, rgba(90,110,255,0.3) 0%, transparent 72%)",
-                  filter: "blur(12px)",
-                  pointerEvents: "none",
-                }}
-              />
-            </div>
 
             {/* Skill badges */}
             <motion.div
               style={{ opacity: badgesOpacity, y: badgesY }}
+              className="w-full"
             >
               <div
                 style={{
                   display: "flex",
                   flexWrap: "wrap",
                   justifyContent: "center",
-                  gap: "10px",
-                  maxWidth: "640px",
+                  gap: "12px",
+                  maxWidth: "680px",
+                  margin: "0 auto",
                 }}
               >
                 {SKILLS.map((skill, i) => (
@@ -298,18 +216,6 @@ export default function SkillsSection() {
               </div>
             </motion.div>
           </div>
-
-          {/* Edge vignette */}
-          <div
-            aria-hidden
-            style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "radial-gradient(ellipse 110% 110% at 50% 50%, transparent 38%, rgba(5,5,7,0.75) 100%)",
-              pointerEvents: "none",
-            }}
-          />
         </div>
       </section>
     </>
