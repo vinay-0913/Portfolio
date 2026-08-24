@@ -1,157 +1,159 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
-import { Monitor, Book, FileText } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
+
+// Nav items in order: Home -> About -> Projects -> Tech Stack -> Connect
+const navItems = [
+  { name: "Home", sectionId: "home", path: "/#home" },
+  { name: "About", sectionId: "about", path: "/#about" },
+  { name: "Projects", sectionId: "featured-works", path: "/#featured-works" },
+  { name: "Tech Stack", sectionId: "skills", path: "/#skills" },
+  { name: "Connect", sectionId: "connect", path: "/#connect" },
+];
 
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
+  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState<string | null>("home");
 
-  const [showMore, setShowMore] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
+  // Scroll-spy: detects which section is in view and handles navbar pill transition
   useEffect(() => {
-    const handleClick = () => setShowMore(false);
-    window.addEventListener("click", handleClick);
-    return () => window.removeEventListener("click", handleClick);
-  }, []);
+    if (pathname !== "/") return;
 
-  const openMenu = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setShowMore(true);
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      setScrolled(scrollY > 60);
+
+      const sectionIds = ["home", "about", "featured-works", "skills", "connect"];
+      const triggerPoint = window.innerHeight * 0.35; // 35% from viewport top
+
+      let current = "home";
+
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= triggerPoint) {
+            current = id;
+          }
+        }
+      }
+
+      // Check if user is at the bottom of the page
+      if (
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 50
+      ) {
+        current = "connect";
+      }
+
+      setActiveSection(current);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [pathname]);
+
+  const handleNavigation = useCallback(
+    (item: (typeof navItems)[0]) => {
+      if (item.isExternal) {
+        window.open(item.path, "_blank", "noopener,noreferrer");
+        return;
+      }
+
+      if (item.path.startsWith("/#")) {
+        const sectionId = item.path.replace("/#", "");
+        if (pathname !== "/") {
+          router.push(item.path);
+        } else {
+          if (sectionId === "home") {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          } else {
+            const el = document.getElementById(sectionId);
+            el?.scrollIntoView({ behavior: "smooth" });
+          }
+        }
+        return;
+      }
+      router.push(item.path);
+    },
+    [pathname, router]
+  );
+
+  const isItemActive = (item: (typeof navItems)[0]) => {
+    if (item.isExternal) return false;
+    if (pathname === "/") {
+      return item.sectionId === activeSection;
+    }
+    if (item.path === "/about" && pathname === "/about") return true;
+    if (
+      item.path === "/projects" &&
+      (pathname === "/projects" || pathname?.startsWith("/work"))
+    )
+      return true;
+    return false;
   };
-
-  const closeMenu = () => {
-    timeoutRef.current = setTimeout(() => {
-      setShowMore(false);
-    }, 180);
-  };
-
-  const navItems = [
-    { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Projects", path: "/projects" },
-    // ❌ Blogs removed from here
-  ];
-
-  const handleNavigation = (path: string) => {
-  if (pathname === path) return;
-  router.push(path);
-};
 
   return (
-    <div className="fixed top-4 right-4 z-50">
-      <div className="flex items-center gap-1 px-2.5 py-1.5 bg-white/80 backdrop-blur-md border border-zinc-200 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
-
+    <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50">
+      <motion.nav
+        animate={{
+          backgroundColor: scrolled
+            ? "rgba(20, 20, 20, 0.92)"
+            : "rgba(20, 20, 20, 0)",
+          borderColor: scrolled
+            ? "rgba(39, 39, 42, 0.8)"
+            : "rgba(39, 39, 42, 0)",
+          boxShadow: scrolled
+            ? "0 8px 32px rgba(0, 0, 0, 0.55)"
+            : "0 0px 0px rgba(0, 0, 0, 0)",
+        }}
+        transition={{ duration: 0.6, ease: "easeInOut" }}
+        className="flex items-center gap-1 sm:gap-1.5 px-3 py-1.5 sm:px-4 sm:py-1.5 backdrop-blur-xl border rounded-full"
+      >
         {/* NAV ITEMS */}
-        <div className="flex items-center gap-1 text-sm relative">
-          {navItems.map((item) => {
-            const isActive = pathname === item.path;
+        {navItems.map((item) => {
+          const active = isItemActive(item);
 
-            return (
-              <button
-                key={item.name}
-                onClick={() => handleNavigation(item.path)}
-                className="relative px-3.5 py-1 rounded-full overflow-hidden group transition"
-              >
-                {isActive && (
-                  <motion.span
-                    layoutId="activeNavIndicator"
-                    className="absolute inset-0 bg-zinc-900 rounded-full"
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                  />
-                )}
-
-                <span
-                  className={`relative z-10 font-medium text-xs transition ${
-                    isActive
-                      ? "text-white"
-                      : "text-zinc-600 hover:text-zinc-900"
+          return (
+            <button
+              key={item.name}
+              onClick={() => handleNavigation(item)}
+              className="relative px-4 sm:px-5 py-1.5 sm:py-1.5 rounded-full transition cursor-pointer group"
+            >
+              <span
+                className={`relative z-10 font-semibold text-[13px] sm:text-[14px] tracking-[0.08em] transition-colors duration-200 whitespace-nowrap ${active ? "text-white" : "text-zinc-500 hover:text-zinc-300"
                   }`}
+              >
+                {item.name.toUpperCase()}
+              </span>
+
+              {/* Animated glowing underline */}
+              {active && (
+                <motion.div
+                  layoutId="navUnderline"
+                  className="absolute bottom-0.5 left-3 right-3 sm:left-4 sm:right-4 h-[2px]"
+                  transition={{
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 30,
+                  }}
                 >
-                  {item.name}
-                </span>
-              </button>
-            );
-          })}
-
-          {/* MORE BUTTON */}
-          <button
-            onMouseEnter={openMenu}
-            onMouseLeave={closeMenu}
-            className="px-3 py-1 rounded-full text-xs font-medium bg-zinc-100 hover:bg-zinc-200 transition text-zinc-700"
-          >
-            More ▾
-          </button>
-        </div>
-
-        {/* CTA */}
-        <Link
-          href="/book-call"
-          className="ml-1 px-3.5 py-1 bg-zinc-900 text-white rounded-full text-xs font-medium hover:bg-zinc-800 hover:scale-105 transition"
-        >
-          Book a Call
-        </Link>
-      </div>
-
-      {/* DROPDOWN */}
-      {showMore && (
-        <div
-          onMouseEnter={openMenu}
-          onMouseLeave={closeMenu}
-          onClick={(e) => e.stopPropagation()}
-          className="absolute top-14 right-0 w-[300px] bg-white/95 border border-zinc-200 rounded-2xl p-3 shadow-xl backdrop-blur-md"
-        >
-          <div className="grid grid-cols-2 gap-2.5">
-
-            <Link href="/uses">
-              <div className="flex flex-col items-start gap-2 p-3 rounded-xl border border-zinc-100 bg-zinc-50 hover:bg-zinc-100 transition cursor-pointer">
-                <div className="w-8 h-8 flex items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-700">
-                  <Monitor size={16} />
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-zinc-900">Uses</p>
-                  <p className="text-[10px] text-zinc-500">
-                    DevTools, AI & Socials
-                  </p>
-                </div>
-              </div>
-            </Link>
-
-            <Link href="/guestbook">
-              <div className="flex flex-col items-start gap-2 p-3 rounded-xl border border-zinc-100 bg-zinc-50 hover:bg-zinc-100 transition cursor-pointer">
-                <div className="w-8 h-8 flex items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-700">
-                  <Book size={16} />
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-zinc-900">Guestbook</p>
-                  <p className="text-[10px] text-zinc-500">
-                    Sign my wall
-                  </p>
-                </div>
-              </div>
-            </Link>
-
-            <Link href="/blogs">
-              <div className="flex flex-col items-start gap-2 p-3 rounded-xl border border-zinc-100 bg-zinc-50 hover:bg-zinc-100 transition cursor-pointer">
-                <div className="w-8 h-8 flex items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-700">
-                  <FileText size={16} />
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-zinc-900">Blogs</p>
-                  <p className="text-[10px] text-zinc-500">
-                    Read my articles
-                  </p>
-                </div>
-              </div>
-            </Link>
-
-          </div>
-        </div>
-      )}
+                  {/* Glow layer */}
+                  <div className="absolute inset-0 bg-[#e8dcc8] blur-[5px] opacity-70 rounded-full" />
+                  {/* Solid line */}
+                  <div className="relative h-full bg-[#e8dcc8] rounded-full" />
+                </motion.div>
+              )}
+            </button>
+          );
+        })}
+      </motion.nav>
     </div>
   );
 }

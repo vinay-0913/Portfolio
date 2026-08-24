@@ -1,223 +1,172 @@
 "use client";
 
-import { useRef, memo, useState } from "react";
+import { motion } from "framer-motion";
+import { Playfair_Display } from "next/font/google";
 import {
-  useScroll,
-  useTransform,
-  motion,
-} from "framer-motion";
+  FaReact,
+  FaNodeJs,
+  FaJava,
+  FaPython,
+  FaHtml5,
+  FaCss3Alt,
+  FaJs,
+  FaGitAlt,
+  FaGithub,
+  FaAws,
+  FaDocker,
+  FaDatabase,
+  FaBrain,
+  FaBolt,
+} from "react-icons/fa";
+import {
+  SiNextdotjs,
+  SiTailwindcss,
+  SiTypescript,
+  SiExpress,
+  SiPostman,
+  SiAnthropic,
+  SiMongodb,
+  SiPostgresql,
+  SiPandas,
+  SiNumpy,
+  SiFlask,
+  SiScikitlearn,
+  SiTensorflow,
+} from "react-icons/si";
+import { AiOutlineBarChart, AiOutlineApi } from "react-icons/ai";
 
-// ─── Skills Data ────────────────────────────────────────────────────────────
-const SKILLS = [
-  { label: "React.js", icon: "⚛" },
-  { label: "Next.js", icon: "▲" },
-  { label: "TypeScript", icon: "TS" },
-  { label: "Tailwind CSS", icon: "◈" },
-  { label: "Node.js", icon: "⬡" },
-  { label: "MongoDB", icon: "🍃" },
-  { label: "PostgreSQL", icon: "⬡" },
-  { label: "GraphQL", icon: "◇" },
-  { label: "Framer Motion", icon: "✦" },
-  { label: "Three.js", icon: "△" },
-  { label: "Docker", icon: "⬢" },
-  { label: "AWS", icon: "☁" },
-];
-
-// ─── Skill Badge ─────────────────────────────────────────────────────────────
-const SkillBadge = memo(function SkillBadge({
-  label,
-  icon,
-  index,
-}: {
-  label: string;
-  icon: string;
-  index: number;
-}) {
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{
-        duration: 0.55,
-        delay: index * 0.04,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      whileHover={{ scale: 1.05, y: -2 }}
-      onHoverStart={() => setHovered(true)}
-      onHoverEnd={() => setHovered(false)}
-      className="flex items-center gap-3 px-4 py-2.5 rounded-xl cursor-default select-none transition-all duration-300"
-      style={{
-        background: hovered ? "#ffffff" : "rgba(255, 255, 255, 0.7)",
-        border: `1px solid ${hovered ? "rgba(0, 0, 0, 0.15)" : "rgba(0, 0, 0, 0.08)"}`,
-        boxShadow: hovered
-          ? "0 10px 25px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.04)"
-          : "0 2px 8px rgba(0, 0, 0, 0.02)",
-      }}
-    >
-      <span
-        className="text-xs font-mono w-4 text-center font-bold text-zinc-500"
-      >
-        {icon}
-      </span>
-      <span
-        className="text-sm font-medium text-zinc-800"
-        style={{
-          fontFamily: "'DM Sans', sans-serif",
-          letterSpacing: "0.01em",
-        }}
-      >
-        {label}
-      </span>
-    </motion.div>
-  );
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  style: ["italic", "normal"],
 });
 
-// ─── Main Component ──────────────────────────────────────────────────────────
+interface Skill {
+  name: string;
+  icon: React.ReactNode;
+}
+
+interface SkillCategory {
+  title: string;
+  skills: Skill[];
+}
+
+const SKILL_CATEGORIES: SkillCategory[] = [
+  {
+    title: "LANGUAGES",
+    skills: [
+      { name: "Python", icon: <FaPython className="text-yellow-500" /> },
+      { name: "Java", icon: <FaJava className="text-orange-500" /> },
+      { name: "JavaScript", icon: <FaJs className="text-yellow-400" /> },
+      { name: "TypeScript", icon: <SiTypescript className="text-blue-500" /> },
+      { name: "HTML", icon: <FaHtml5 className="text-orange-600" /> },
+      { name: "CSS", icon: <FaCss3Alt className="text-blue-500" /> },
+      { name: "SQL", icon: <FaDatabase className="text-emerald-500" /> },
+    ],
+  },
+  {
+    title: "FRAMEWORKS",
+    skills: [
+      { name: "React.js", icon: <FaReact className="text-blue-400" /> },
+      { name: "Next.js", icon: <SiNextdotjs className="text-zinc-300" /> },
+      { name: "Node.js", icon: <FaNodeJs className="text-green-500" /> },
+      { name: "Express.js", icon: <SiExpress className="text-zinc-400" /> },
+      { name: "Tailwind CSS", icon: <SiTailwindcss className="text-cyan-400" /> },
+    ],
+  },
+  {
+    title: "TOOLS",
+    skills: [
+      { name: "Git", icon: <FaGitAlt className="text-orange-500" /> },
+      { name: "GitHub", icon: <FaGithub className="text-zinc-300" /> },
+      { name: "Postman", icon: <SiPostman className="text-orange-500" /> },
+      { name: "Claude Code", icon: <SiAnthropic className="text-amber-500" /> },
+      { name: "Antigravity", icon: <FaBolt className="text-purple-400" /> },
+    ],
+  },
+  {
+    title: "TECHNOLOGIES",
+    skills: [
+      { name: "LLMs", icon: <FaBrain className="text-pink-400" /> },
+      { name: "AWS", icon: <FaAws className="text-amber-500" /> },
+      { name: "Docker", icon: <FaDocker className="text-blue-400" /> },
+      { name: "REST APIs", icon: <AiOutlineApi className="text-indigo-400" /> },
+    ],
+  },
+  {
+    title: "DATABASE",
+    skills: [
+      { name: "MongoDB", icon: <SiMongodb className="text-green-500" /> },
+      { name: "PostgreSQL", icon: <SiPostgresql className="text-blue-500" /> },
+    ],
+  },
+  {
+    title: "AI / ML",
+    skills: [
+      { name: "Pandas", icon: <SiPandas className="text-blue-500" /> },
+      { name: "NumPy", icon: <SiNumpy className="text-cyan-500" /> },
+      { name: "Matplotlib", icon: <AiOutlineBarChart className="text-emerald-400" /> },
+      { name: "Scikit-learn", icon: <SiScikitlearn className="text-orange-400" /> },
+      { name: "TensorFlow", icon: <SiTensorflow className="text-orange-500" /> },
+    ],
+  },
+];
+
 export default function SkillsSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-
-  // ── UI fade / slide animations ───────────────────────────────────────────
-  const headingOpacity = useTransform(
-    scrollYProgress, [0, 0.08, 0.72, 0.88], [0, 1, 1, 0]
-  );
-  const headingY = useTransform(scrollYProgress, [0, 0.08], [28, 0]);
-
-  const badgesOpacity = useTransform(
-    scrollYProgress, [0.35, 0.5, 0.85, 1], [0, 1, 1, 0]
-  );
-  const badgesY = useTransform(scrollYProgress, [0.35, 0.5], [24, 0]);
-
   return (
-    <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800;900&display=swap');
+    <section id="skills" className="relative bg-[#0a0a0a] py-24 px-6 md:px-16 lg:px-24">
+      <div className="max-w-7xl mx-auto">
+        {/* Section Header */}
+        <div className="mb-16">
+          <p className="text-[10px] uppercase tracking-[0.3em] font-semibold text-zinc-500 mb-3">
+            Technical Arsenal
+          </p>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white">
+            Skills &amp;{" "}
+            <span className={`${playfair.className} italic font-normal text-[#e8dcc8]`}>
+              Expertise
+            </span>
+          </h2>
+        </div>
 
-        .skill-gradient-text-light {
-          background: linear-gradient(130deg, #18181b 0%, #71717a 50%, #27272a 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-      `}</style>
-
-      <section
-        ref={containerRef}
-        style={{ height: "240vh", position: "relative", background: "#f5f3ef" }}
-      >
-        <div
-          style={{
-            position: "sticky",
-            top: 0,
-            height: "100vh",
-            overflow: "hidden",
-            background: "#f5f3ef",
-          }}
-        >
-          {/* Atmospheric subtle radial for depth */}
-          <div
-            aria-hidden
-            style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "radial-gradient(ellipse 60% 45% at 50% 50%, rgba(255, 255, 255, 0.8) 0%, transparent 70%)",
-              pointerEvents: "none",
-            }}
-          />
-
-          {/* Subtle grid */}
-          <div
-            aria-hidden
-            style={{
-              position: "absolute",
-              inset: 0,
-              backgroundImage: `
-                linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px)
-              `,
-              backgroundSize: "60px 60px",
-              pointerEvents: "none",
-            }}
-          />
-
-          {/* Center layout */}
-          <div
-            style={{
-              position: "relative",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "100%",
-              gap: "24px",
-              padding: "0 24px",
-              zIndex: 10,
-            }}
-          >
-            {/* Heading */}
+        {/* Categorized Skills Grid / Rows */}
+        <div className="space-y-4 md:space-y-5">
+          {SKILL_CATEGORIES.map((cat, idx) => (
             <motion.div
-              style={{ opacity: headingOpacity, y: headingY }}
-              className="text-center"
+              key={cat.title}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, delay: idx * 0.08 }}
+              className="grid grid-cols-1 md:grid-cols-[200px_1fr] lg:grid-cols-[240px_1fr] items-start gap-4 md:gap-8 p-6 md:p-8 rounded-2xl bg-[#141414] border border-zinc-800 hover:border-zinc-700 transition-all duration-300"
             >
-              <p
-                style={{
-                  margin: "0 0 12px",
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: "11px",
-                  fontWeight: 600,
-                  letterSpacing: "0.38em",
-                  textTransform: "uppercase",
-                  color: "#a1a1aa",
-                }}
-              >
-                My Skillset
-              </p>
-              <h2
-                style={{
-                  margin: 0,
-                  fontFamily: "'Syne', sans-serif",
-                  fontSize: "clamp(40px, 6vw, 70px)",
-                  fontWeight: 900,
-                  lineHeight: 1.1,
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                <span className="text-zinc-900">The Magic </span>
-                <span className="skill-gradient-text-light">Behind</span>
-              </h2>
-            </motion.div>
+              {/* Category Title on Left */}
+              <div className="flex items-center">
+                <h3 className="text-xl md:text-2xl font-black tracking-wider text-white uppercase">
+                  {cat.title}
+                </h3>
+              </div>
 
-            {/* Skill badges */}
-            <motion.div
-              style={{ opacity: badgesOpacity, y: badgesY }}
-              className="w-full"
-            >
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  justifyContent: "center",
-                  gap: "12px",
-                  maxWidth: "680px",
-                  margin: "0 auto",
-                }}
-              >
-                {SKILLS.map((skill, i) => (
-                  <SkillBadge key={skill.label} {...skill} index={i} />
+              {/* Badges on Right */}
+              <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
+                {cat.skills.map((skill) => (
+                  <motion.div
+                    key={skill.name}
+                    whileHover={{ scale: 1.04, y: -2 }}
+                    className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-[#1a1a1a] border border-zinc-800 text-zinc-300 hover:border-zinc-600 hover:text-white transition-all duration-200 cursor-default select-none"
+                  >
+                    <span className="text-base flex items-center justify-center">
+                      {skill.icon}
+                    </span>
+                    <span className="text-sm font-medium tracking-tight">
+                      {skill.name}
+                    </span>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>
-          </div>
+          ))}
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

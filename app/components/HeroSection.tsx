@@ -1,25 +1,71 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { FaLinkedin, FaGithub, FaTwitter } from "react-icons/fa";
-import { motion } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { Playfair_Display } from "next/font/google";
+import Image from "next/image";
 
-const images = ["/img1.jpg", "/img2.jpg", "/img3.jpg"];
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  style: ["italic", "normal"],
+});
+
+function AnimatedWord({
+  word,
+  progress,
+  range,
+}: {
+  word: string;
+  progress: MotionValue<number>;
+  range: [number, number];
+}) {
+  const color = useTransform(progress, range, ["#52525b", "#e8dcc8"]);
+  const opacity = useTransform(progress, range, [0.4, 1]);
+
+  return (
+    <motion.span
+      style={{ color, opacity }}
+      className="inline-block mr-[0.28em] transition-colors duration-75"
+    >
+      {word}
+    </motion.span>
+  );
+}
+
+function AnimatedParagraph({ text }: { text: string }) {
+  const containerRef = useRef<HTMLParagraphElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 0.88", "end 0.55"],
+  });
+
+  const words = text.split(" ");
+
+  return (
+    <p
+      ref={containerRef}
+      className="text-[20px] leading-[1.8] max-w-xl mb-14 font-normal flex flex-wrap"
+    >
+      {words.map((word, i) => {
+        const start = i / words.length;
+        const end = Math.min(start + 1.5 / words.length, 1);
+        return (
+          <AnimatedWord
+            key={i}
+            word={word}
+            progress={scrollYProgress}
+            range={[start, end]}
+          />
+        );
+      })}
+    </p>
+  );
+}
 
 export default function HeroSection() {
-  const [index, setIndex] = useState(0);
   const router = useRouter();
 
-  // 🔥 rotate images
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % images.length);
-    }, 2500);
-    return () => clearInterval(interval);
-  }, []);
-
-  // 🔥 delayed navigation (for transition)
   const handleNavigation = () => {
     setTimeout(() => {
       router.push("/about");
@@ -27,121 +73,129 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="bg-[#f5f3ef] text-zinc-900 py-28 px-6 md:px-16 flex flex-col md:flex-row items-center justify-between gap-20 overflow-hidden max-w-7xl mx-auto">
-      
-      {/* LEFT */}
-      <div className="max-w-2xl">
-
-        <p className="text-xs tracking-[0.3em] font-semibold text-zinc-400 mb-6 uppercase">
-          A QUICK GLANCE
-        </p>
-
-        <h1 className="text-[40px] md:text-[56px] font-semibold leading-[1.1] text-zinc-900">
-          <span className="block">
-            Building the bridge between
-          </span>
-
-          <span className="block">
-            ideas and{" "}
-            <span className="font-serif italic bg-gradient-to-r from-zinc-900 via-zinc-600 to-zinc-800 text-transparent bg-clip-text">
-              experiences
-            </span>
-          </span>
-        </h1>
-
-        <p className="mt-8 text-zinc-600 leading-relaxed max-w-lg text-[15px]">
-          I'm Vinay Ratnakar, an engineering-driven developer who turns complex
-          technical challenges into high-speed web products. I manage the entire
-          stack with a focus on clean, reusable code and seamless performance.
-          I excel in Next.js and full-stack architecture, always delivering
-          modern solutions that actually solve problems for every user.
-          <br /><br />
-          My code is built to last, helping your startup reach the next level!
-        </p>
-
-        <p className="mt-4 text-zinc-500 max-w-lg text-[14px]">
-          Building scalable solutions and crafting modern digital experiences.
-        </p>
-
-        {/* SOCIAL */}
-        <div className="flex items-center gap-5 mt-8 text-zinc-500">
-
-          <a
-            href="https://www.linkedin.com/in/vinay-ratnakar-650a05264/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-zinc-900 transition text-lg"
-          >
-            <FaLinkedin />
-          </a>
-
-          <a
-            href="https://github.com/vinay-0913/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-zinc-900 transition text-lg"
-          >
-            <FaGithub />
-          </a>
-
-          <a
-            href="https://x.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-zinc-900 transition text-lg"
-          >
-            <FaTwitter />
-          </a>
-
-        </div>
-
-        {/* BUTTON */}
-        <button
-          onClick={handleNavigation}
-          className="mt-8 inline-flex items-center gap-3 text-sm font-medium text-zinc-900 group cursor-pointer"
+    <section id="about" className="relative bg-[#0a0a0a] text-white py-28 px-6 md:px-16 lg:px-24 overflow-hidden">
+      <div className="max-w-7xl mx-auto">
+        {/* Section Label */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mb-10"
         >
-          Dive in deeper
-
-          <span className="w-8 h-8 flex items-center justify-center border border-zinc-300 rounded-full transition-all duration-300 group-hover:translate-x-1 group-hover:border-zinc-900 group-hover:bg-zinc-900 group-hover:text-white">
-            →
+          <span className="inline-block px-4 py-1.5 rounded-full border border-[#e8dcc8]/30 bg-[#e8dcc8]/5 text-[#e8dcc8] text-[11px] font-semibold tracking-[0.2em] uppercase">
+            Engineering & Dev // About
           </span>
-        </button>
+        </motion.div>
 
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-14 lg:gap-20 items-start">
+          {/* LEFT COLUMN — Text */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            {/* Hero Statement */}
+            <h2 className="text-[36px] sm:text-[44px] md:text-[52px] font-semibold leading-[1.15] tracking-tight mb-10">
+              I am Vinay Ratnakar,{" "}
+              <span className={`${playfair.className} italic font-normal text-[#e8dcc8]`}>
+                an aspiring developer.
+              </span>{" "}
+              I love building scalable web apps and tools that make ideas come alive.
+            </h2>
+
+            {/* Description Paragraph with Scroll-driven color reveal */}
+            <AnimatedParagraph
+              text="Curiosity. I enjoy breaking concepts down, trying bold ideas, and pushing boundaries with code. Whether it's a full-stack platform, an AI-powered tool, or a fresh design system — if it's interesting, I'm jumping in. Currently studying Computer Science while actively contributing to open source ecosystems."
+            />
+
+            {/* Metadata Row */}
+            <div className="flex flex-wrap gap-x-16 gap-y-6">
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.25em] uppercase text-zinc-600 mb-1.5">
+                  Institution
+                </p>
+                <p className="text-zinc-300 text-sm font-medium">
+                  BIT, Durg (B.Tech Computer Science)
+                </p>
+              </div>
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.25em] uppercase text-zinc-600 mb-1.5">
+                  Focus Areas
+                </p>
+                <p className="text-zinc-300 text-sm font-medium">
+                  Full Stack, AI/ML, Web Dev
+                </p>
+              </div>
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.25em] uppercase text-zinc-600 mb-1.5">
+                  Location
+                </p>
+                <p className="text-zinc-300 text-sm font-medium">
+                  Raipur, India
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* RIGHT COLUMN — Profile Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+          >
+            <div className="bg-[#141414] rounded-2xl sm:rounded-3xl border border-zinc-800 overflow-hidden shadow-2xl">
+              {/* Card Header */}
+              <div className="flex items-center justify-between px-5 py-3 border-b border-zinc-800/60">
+                <span className="text-[10px] font-semibold tracking-[0.2em] uppercase text-zinc-600 font-mono">
+                  Profile.jpg
+                </span>
+                <span className="text-[10px] font-mono text-zinc-700">
+                  #TTM_SYS
+                </span>
+              </div>
+
+              {/* Photo */}
+              <div className="relative w-full aspect-[4/4.5] bg-zinc-900">
+                <Image
+                  src="/MyPhotograh.jpeg"
+                  alt="Vinay Ratnakar"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 400px"
+                  className="object-cover object-top"
+                  priority
+                />
+                {/* Warm ambient glow overlay */}
+                <div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background:
+                      "linear-gradient(to top, rgba(10, 10, 10, 0.7) 0%, transparent 40%)",
+                  }}
+                />
+              </div>
+
+              {/* Card Footer */}
+              <div className="px-5 py-4 flex items-center justify-between">
+                <div>
+                  <h4 className="text-white font-bold text-sm">
+                    Vinay Ratnakar
+                  </h4>
+                  <p className="text-zinc-600 text-[10px] tracking-[0.15em] uppercase font-semibold">
+                    Builder // Developer
+                  </p>
+                </div>
+                <span className="px-3 py-1 rounded-md bg-zinc-800 border border-zinc-700 text-[10px] font-mono text-zinc-400 tracking-wide">
+                  2026_SYS
+                </span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </div>
-
-      {/* RIGHT (IMAGE STACK) */}
-      <div className="relative w-[340px] h-[420px] flex items-center justify-center overflow-hidden">
-
-        {images.map((img, i) => {
-          const position = (i - index + images.length) % images.length;
-
-          return (
-            <motion.div
-              key={i}
-              className="absolute w-full h-full rounded-3xl overflow-hidden shadow-[0_15px_35px_rgba(0,0,0,0.1)] border border-white/80"
-              animate={{
-                x: position === 0 ? 0 : position === 1 ? 70 : -70,
-                scale: position === 0 ? 1 : 0.9,
-                rotate: position === 0 ? 0 : position === 1 ? 6 : -6,
-                zIndex: position === 0 ? 3 : position === 1 ? 2 : 1,
-                opacity: position === 2 ? 0.5 : 1,
-              }}
-              transition={{
-                duration: 0.8,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-            >
-              <img
-                src={img}
-                alt="Highlight"
-                className="w-full h-full object-cover"
-              />
-            </motion.div>
-          );
-        })}
-
-      </div>
-
     </section>
   );
 }
