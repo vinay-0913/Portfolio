@@ -101,14 +101,14 @@ export default function HeroSection() {
             <h2 className="text-[36px] sm:text-[44px] md:text-[52px] font-semibold leading-[1.15] tracking-tight mb-10">
               I am Vinay Ratnakar,{" "}
               <span className={`${playfair.className} italic font-normal text-[#e8dcc8]`}>
-                an aspiring developer.
-              </span>{" "}
+                an aspiring Software Engineer.
+              </span>{" "} <br />
               I love building scalable web apps and tools that make ideas come alive.
             </h2>
 
             {/* Description Paragraph with Scroll-driven color reveal */}
             <AnimatedParagraph
-              text="Curiosity. I enjoy breaking concepts down, trying bold ideas, and pushing boundaries with code. Whether it's a full-stack platform, an AI-powered tool, or a fresh design system — if it's interesting, I'm jumping in. Currently studying Computer Science while actively contributing to open source ecosystems."
+              text="Curiosity. I enjoy solving real world problems, breaking concepts down, trying bold ideas, and pushing boundaries with code. Whether it's a full-stack platform, an AI-powered tool, or a fresh design system — if it's interesting, I'm jumping in. Graduate in B.Tech Computer Science while actively developing products."
             />
 
             {/* Metadata Row */}
@@ -118,7 +118,7 @@ export default function HeroSection() {
                   Institution
                 </p>
                 <p className="text-zinc-300 text-sm font-medium">
-                  BIT, Durg (B.Tech Computer Science)
+                  BIT, Durg
                 </p>
               </div>
               <div>
@@ -146,6 +146,7 @@ export default function HeroSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.15 }}
+            className="hidden lg:block"
           >
             <div className="bg-[#141414] rounded-2xl sm:rounded-3xl border border-zinc-800 overflow-hidden shadow-2xl">
               {/* Card Header */}

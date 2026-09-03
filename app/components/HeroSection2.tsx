@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Playfair_Display } from "next/font/google";
 import { FiGithub, FiLinkedin, FiInstagram, FiMail } from "react-icons/fi";
+import { SiLeetcode } from "react-icons/si";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -83,6 +84,7 @@ export default function HeroSection2() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-11 h-11 rounded-full border border-zinc-700 flex items-center justify-center text-zinc-400 hover:text-white hover:border-zinc-500 hover:bg-zinc-800/50 transition-all duration-200"
+                aria-label="GitHub"
               >
                 <FiGithub className="text-lg" />
               </a>
@@ -91,20 +93,32 @@ export default function HeroSection2() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-11 h-11 rounded-full border border-zinc-700 flex items-center justify-center text-zinc-400 hover:text-white hover:border-zinc-500 hover:bg-zinc-800/50 transition-all duration-200"
+                aria-label="LinkedIn"
               >
                 <FiLinkedin className="text-lg" />
+              </a>
+              <a
+                href="https://leetcode.com/u/Vinay0913/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-11 h-11 rounded-full border border-zinc-700 flex items-center justify-center text-zinc-400 hover:text-white hover:border-zinc-500 hover:bg-zinc-800/50 transition-all duration-200"
+                aria-label="LeetCode"
+              >
+                <SiLeetcode className="text-lg" />
               </a>
               <a
                 href="https://instagram.com/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-11 h-11 rounded-full border border-zinc-700 flex items-center justify-center text-zinc-400 hover:text-white hover:border-zinc-500 hover:bg-zinc-800/50 transition-all duration-200"
+                aria-label="Instagram"
               >
                 <FiInstagram className="text-lg" />
               </a>
               <a
                 href="mailto:vinayratnakar0913@gmail.com"
                 className="w-11 h-11 rounded-full border border-zinc-700 flex items-center justify-center text-zinc-400 hover:text-white hover:border-zinc-500 hover:bg-zinc-800/50 transition-all duration-200"
+                aria-label="Email"
               >
                 <FiMail className="text-lg" />
               </a>
@@ -133,6 +147,14 @@ export default function HeroSection2() {
                 className="hover:text-white transition-colors duration-200"
               >
                 LinkedIn
+              </a>
+              <a
+                href="https://leetcode.com/u/Vinay0913/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white transition-colors duration-200"
+              >
+                LeetCode
               </a>
               <a
                 href="https://instagram.com/"

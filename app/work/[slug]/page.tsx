@@ -10,7 +10,7 @@ import Navbar from "@/app/components/Navbar";
 import TopLeft from "@/app/components/TopLeft";
 import HeroSection2 from "@/app/components/HeroSection2";
 import { FaReact, FaNodeJs, FaGoogle, FaLock, FaRupeeSign, FaShieldAlt, FaPython } from "react-icons/fa";
-import { SiNextdotjs, SiTailwindcss, SiFlask, SiScikitlearn, SiTypescript, SiMongodb, SiExpress } from "react-icons/si";
+import { SiNextdotjs, SiTailwindcss, SiFlask, SiScikitlearn, SiTypescript, SiMongodb, SiExpress, SiSupabase } from "react-icons/si";
 import { AiOutlineBarChart } from "react-icons/ai";
 
 // Tech icon mapper helper
@@ -31,6 +31,8 @@ const getTechIcon = (name: string) => {
       return <SiTailwindcss className="text-cyan-400" />;
     case "mongodb":
       return <SiMongodb className="text-green-400" />;
+    case "supabase":
+      return <SiSupabase className="text-emerald-400" />;
     case "razorpay":
       return <FaRupeeSign className="text-blue-400" />;
     case "google oauth":
@@ -61,13 +63,14 @@ export default function WorkDetailPage({
   const resolvedParams = use(params);
   const router = useRouter();
 
-  // Find project by slug
-  const normalizedSlug = resolvedParams.slug.toLowerCase().replace(/\.com$/, "");
+  // Find project by slug with resilient matching (handles decoding %20, spaces, and hyphens)
+  const decodedSlug = decodeURIComponent(resolvedParams.slug || "").toLowerCase().replace(/\.com$/, "");
+  const cleanParam = decodedSlug.replace(/[^a-z0-9]/g, "");
   const project = projects.find(
     (p) =>
-      p.slug.toLowerCase() === normalizedSlug ||
-      p.title.toLowerCase().replace(/[^a-z0-9]/g, "") ===
-        normalizedSlug.replace(/[^a-z0-9]/g, "")
+      p.slug.toLowerCase() === decodedSlug ||
+      p.slug.toLowerCase().replace(/[^a-z0-9]/g, "") === cleanParam ||
+      p.title.toLowerCase().replace(/[^a-z0-9]/g, "") === cleanParam
   );
 
   if (!project) {
@@ -104,7 +107,7 @@ export default function WorkDetailPage({
       <Navbar />
 
       {/* Hero Showcase Frame - Sticky at Top with Buttery Smooth Parallax */}
-      <div className="sticky top-0 h-[65vh] sm:h-[75vh] md:h-[82vh] w-full flex items-center justify-center px-4 sm:px-8 md:px-12 pt-16 sm:pt-20 z-0 pointer-events-none">
+      <div className="sticky top-2 sm:top-12 md:top-16 h-[38vh] sm:h-[65vh] md:h-[80vh] w-full flex items-center justify-center px-4 sm:px-8 md:px-12 pt-2 sm:pt-8 md:pt-10 z-0 pointer-events-none">
         <motion.div
           style={{
             scale: heroScale,
@@ -112,7 +115,7 @@ export default function WorkDetailPage({
             y: heroY,
             transformOrigin: "center top",
           }}
-          className="relative w-full max-w-6xl aspect-[16/10] sm:aspect-[16/9] md:aspect-[16/8.5] rounded-3xl md:rounded-[40px] overflow-hidden shadow-2xl border border-zinc-800 bg-neutral-900 will-change-transform pointer-events-auto"
+          className="relative w-full max-w-6xl aspect-[16/10] sm:aspect-[16/9] md:aspect-[16/8.5] rounded-2xl sm:rounded-3xl md:rounded-[40px] overflow-hidden shadow-2xl border border-zinc-800 bg-neutral-900 will-change-transform pointer-events-auto"
         >
           <img
             src={project.images[0]}
@@ -123,8 +126,8 @@ export default function WorkDetailPage({
         </motion.div>
       </div>
 
-      {/* Main Content Card - Slides up and covers top hero section */}
-      <section className="relative z-10 w-full mt-[-10vh] sm:mt-[-14vh] md:mt-[-18vh]">
+      {/* Main Content Card - Slides up and covers top hero section (Envelope effect) */}
+      <section className="relative z-10 w-full mt-[-12vh] sm:mt-[-14vh] md:mt-[-18vh]">
         <div className="w-full bg-[#141414] rounded-t-[36px] sm:rounded-t-[48px] md:rounded-t-[60px] rounded-b-none px-6 sm:px-10 md:px-16 lg:px-24 py-12 md:py-16 shadow-[0_-30px_70px_rgba(0,0,0,0.5)] border-t border-zinc-800 min-h-screen">
           <div className="max-w-7xl mx-auto relative">
             {/* Close / Back button */}
@@ -176,14 +179,6 @@ export default function WorkDetailPage({
               </div>
               <div className="text-zinc-300 font-medium text-sm sm:text-[15px]">
                 {project.date}
-              </div>
-
-              {/* Client / Role */}
-              <div className="text-zinc-500 font-normal tracking-wide text-sm">
-                Client
-              </div>
-              <div className="text-zinc-300 font-medium text-sm sm:text-[15px]">
-                {project.client}
               </div>
 
               {/* Tech Stack */}
