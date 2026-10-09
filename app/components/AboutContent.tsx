@@ -6,7 +6,7 @@ import ImageStack from "../components/ImageStack";
 
 export default function AboutContent() {
   return (
-    <section className="w-full bg-black text-white px-6 md:px-15 pt-10 pb-20">
+    <section className="w-full bg-white text-zinc-900 px-6 md:px-15 pt-10 pb-20">
 
       <div className="max-w-[1400px] mx-auto grid md:grid-cols-[1.2fr_0.8fr] gap-15 items-center">
 
@@ -18,36 +18,36 @@ export default function AboutContent() {
           className="space-y-8"
         >
           {/* SMALL LABEL */}
-          <p className="text-[11px] tracking-[0.3em] uppercase text-zinc-500">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-zinc-400">
             A LITTLE ABOUT ME
           </p>
 
           {/* HEADING */}
-          <h2 className="text-[56px] md:text-[48px] font-semibold leading-[1.05] tracking-tight">
+          <h2 className="text-[56px] md:text-[48px] font-semibold leading-[1.05] tracking-tight text-zinc-900">
             Nice to meet you.
             <br />
-            I'm{" "}
-            <span className="italic bg-gradient-to-r from-gray-300 via-gray-400 to-gray-200 text-transparent bg-clip-text">
+            I&apos;m{" "}
+            <span className="italic text-[#2563eb]">
               Vinay
             </span>
           </h2>
 
           {/* TEXT */}
           <div className="space-y-6 max-w-xl">
-            <p className="text-gray-400 text-[14px] leading-relaxed">
+            <p className="text-zinc-500 text-[14px] leading-relaxed">
               I transform complex ideas into high-speed, scalable web products.
               As an engineering-driven developer, I focus on the entire
               stack—prioritizing clean architecture, seamless performance, and
               modern solutions that drive real value.
             </p>
 
-            <p className="text-gray-400 text-[14px] leading-relaxed">
+            <p className="text-zinc-500 text-[14px] leading-relaxed">
               Beyond writing code, I understand the product lifecycle—how to
               build, ship, and scale meaningful products in a fast-paced
               environment.
             </p>
 
-            <p className="text-gray-400 text-[14px] leading-relaxed">
+            <p className="text-zinc-500 text-[14px] leading-relaxed">
               My philosophy is simple: build things that last. I help startups
               and businesses bridge the gap between concept and reality with
               code that performs.
@@ -59,14 +59,14 @@ export default function AboutContent() {
 
   {/* SOCIAL ICONS */}
    {/* SOCIAL ICONS */}
-            <div className="flex justify-center gap-6 text-gray-400">
+            <div className="flex justify-center gap-6 text-zinc-400">
 
               {/* LinkedIn */}
               <a 
-    href="https://linkedin.com/in/adarshsinghh13" 
+    href="https://linkedin.com/in/vinay-ratnakar-650a05264/" 
     target="_blank" 
     rel="noopener noreferrer"
-    className="hover:text-white transition"
+    className="hover:text-zinc-900 transition"
   >
                 <svg width="18" height="18" fill="currentColor">
                   <path d="M16 0H2C.9 0 0 .9 0 2v12c0 1.1.9 2 2 2h14c1.1 
@@ -81,10 +81,10 @@ export default function AboutContent() {
 
               {/* GitHub */}
               <a 
-    href="https://github.com/adarshsinghh13" 
+    href="https://github.com/vinay-0913" 
     target="_blank" 
     rel="noopener noreferrer"
-    className="hover:text-white transition"
+    className="hover:text-zinc-900 transition"
   >
                 <svg width="18" height="18" fill="currentColor">
                   <path d="M9 0C4 0 0 4 0 9c0 4 2.6 7.4 6.2 
@@ -103,10 +103,10 @@ export default function AboutContent() {
 
               {/* Twitter */}
               <a 
-    href="https://twitter.com/adarshsinghh13" 
+    href="https://twitter.com/" 
     target="_blank" 
     rel="noopener noreferrer"
-    className="hover:text-white transition"
+    className="hover:text-zinc-900 transition"
   >
                 <svg width="18" height="18" fill="currentColor">
                   <path d="M18 3a7.5 7.5 0 0 1-2.1.6 3.7 3.7 

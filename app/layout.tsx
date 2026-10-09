@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display, Dancing_Script } from "next/font/google";
 import "./globals.css";
-import Navbar from "./components/Navbar";
-import TopLeft from "./components/TopLeft";
 import Providers from "./providers";
 import { Toaster } from "react-hot-toast";
 
 /* FONTS */
 const dancing = Dancing_Script({
   subsets: ["latin"],
-  weight: ["600"],
+  weight: ["400", "600"],
   variable: "--font-dancing",
 });
 
@@ -20,13 +18,14 @@ const inter = Inter({
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
-  style: ["italic"],
+  style: ["italic", "normal"],
   variable: "--font-playfair",
 });
 
 export const metadata: Metadata = {
-  title: "Vinay Ratnakar - Developer, Freelancer",
-  description: "Modern developer portfolio",
+  title: "Vinay Ratnakar — Creative Developer & Software Engineer",
+  description:
+    "I design and develop modern web applications that deliver seamless, meaningful and human-centered experiences.",
 };
 
 export default function RootLayout({
@@ -37,7 +36,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${playfair.variable} h-full antialiased`}
+      className={`${inter.variable} ${playfair.variable} ${dancing.variable} h-full antialiased`}
     >
       <head>
         <link
@@ -46,7 +45,9 @@ export default function RootLayout({
         />
       </head>
 
-      <body className={`${inter.className} ${dancing.variable} bg-[#f5f3ef] text-zinc-900`}>
+      <body
+        className={`${inter.className} ${dancing.variable} bg-white text-zinc-900`}
+      >
         <Providers>
           {children}
 

@@ -8,7 +8,7 @@ import { FaSpotify } from "react-icons/fa";
 export default function BehindSection() {
   const router = useRouter();
   return (
-    <section className="bg-[#f5f3ef] text-zinc-900 py-32 px-6 md:px-16 max-w-7xl mx-auto">
+    <section className="bg-white text-zinc-900 py-32 px-6 md:px-16 max-w-7xl mx-auto">
 
       {/* HEADING */}
       <div className="text-center mb-20">

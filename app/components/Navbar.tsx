@@ -12,13 +12,27 @@ interface NavItem {
   isExternal?: boolean;
 }
 
-// Nav items in order: Home -> About -> Projects -> Tech Stack -> Connect
 const navItems: NavItem[] = [
   { name: "Home", shortName: "Home", sectionId: "home", path: "/#home" },
   { name: "About", shortName: "About", sectionId: "about", path: "/#about" },
-  { name: "Projects", shortName: "Projects", sectionId: "featured-works", path: "/#featured-works" },
-  { name: "Tech Stack", shortName: "Stack", sectionId: "skills", path: "/#skills" },
-  { name: "Connect", shortName: "Connect", sectionId: "connect", path: "/#connect" },
+  {
+    name: "Projects",
+    shortName: "Projects",
+    sectionId: "featured-works",
+    path: "/#featured-works",
+  },
+  {
+    name: "Tech Stack",
+    shortName: "Stack",
+    sectionId: "skills",
+    path: "/#skills",
+  },
+  {
+    name: "Connect",
+    shortName: "Connect",
+    sectionId: "connect",
+    path: "/#connect",
+  },
 ];
 
 export default function Navbar() {
@@ -26,18 +40,24 @@ export default function Navbar() {
   const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>("home");
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  // Scroll-spy: detects which section is in view and handles navbar pill transition
+  // Scroll-spy
   useEffect(() => {
     if (pathname !== "/") return;
 
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      setScrolled(scrollY > 60);
+      setScrolled(scrollY > 40);
 
-      const sectionIds = ["home", "about", "featured-works", "skills", "connect"];
-      const triggerPoint = window.innerHeight * 0.35; // 35% from viewport top
-
+      const sectionIds = [
+        "home",
+        "about",
+        "featured-works",
+        "skills",
+        "connect",
+      ];
+      const triggerPoint = window.innerHeight * 0.35;
       let current = "home";
 
       for (const id of sectionIds) {
@@ -50,7 +70,6 @@ export default function Navbar() {
         }
       }
 
-      // Check if user is at the bottom of the page
       if (
         window.innerHeight + window.scrollY >=
         document.documentElement.scrollHeight - 50
@@ -69,6 +88,7 @@ export default function Navbar() {
 
   const handleNavigation = useCallback(
     (item: (typeof navItems)[0]) => {
+      setMobileOpen(false);
       if (item.isExternal) {
         window.open(item.path, "_blank", "noopener,noreferrer");
         return;
@@ -101,71 +121,190 @@ export default function Navbar() {
     if (item.path === "/about" && pathname === "/about") return true;
     if (
       (item.sectionId === "featured-works" || item.path === "/projects") &&
-      (pathname === "/projects" || pathname?.startsWith("/work") || pathname === "/works")
+      (pathname === "/projects" ||
+        pathname?.startsWith("/work") ||
+        pathname === "/works")
     )
       return true;
     return false;
   };
 
-  const showPill = scrolled || pathname !== "/";
+  const scrollToConnect = () => {
+    setMobileOpen(false);
+    if (pathname !== "/") {
+      router.push("/#connect");
+    } else {
+      const el = document.getElementById("connect");
+      el?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
-    <div className="fixed top-3.5 sm:top-6 left-1/2 -translate-x-1/2 z-50 max-w-[calc(100vw-1.25rem)]">
-      <motion.nav
-        animate={{
-          backgroundColor: showPill
-            ? "rgba(20, 20, 20, 0.94)"
-            : "rgba(20, 20, 20, 0)",
-          borderColor: showPill
-            ? "rgba(39, 39, 42, 0.8)"
-            : "rgba(39, 39, 42, 0)",
-          boxShadow: showPill
-            ? "0 8px 32px rgba(0, 0, 0, 0.55)"
-            : "0 0px 0px rgba(0, 0, 0, 0)",
-        }}
-        transition={{ duration: 0.6, ease: "easeInOut" }}
-        className="flex items-center gap-0.5 sm:gap-1.5 px-1.5 py-1 sm:px-4 sm:py-1.5 backdrop-blur-xl border rounded-full overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+    <>
+      <motion.header
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? "bg-white/90 backdrop-blur-xl border-b border-zinc-200 shadow-sm"
+            : "bg-white/70 backdrop-blur-md"
+        }`}
       >
-        {/* NAV ITEMS */}
-        {navItems.map((item) => {
-          const active = isItemActive(item);
-
-          return (
+        <div className="max-w-7xl mx-auto px-6 md:px-10 lg:px-16">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
             <button
-              key={item.name}
-              onClick={() => handleNavigation(item)}
-              className="relative px-2 sm:px-3.5 md:px-5 py-1 sm:py-1.5 rounded-full transition cursor-pointer group shrink-0"
+              onClick={() => {
+                if (pathname !== "/") {
+                  router.push("/");
+                } else {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
+              className="flex items-center gap-2.5 cursor-pointer group"
             >
-              <span
-                className={`relative z-10 font-semibold text-[11px] sm:text-[13px] md:text-[14px] tracking-[0.04em] sm:tracking-[0.08em] transition-colors duration-200 whitespace-nowrap ${
-                  active ? "text-white" : "text-zinc-400 hover:text-zinc-200"
-                }`}
-              >
-                <span className="hidden sm:inline">{item.name.toUpperCase()}</span>
-                <span className="sm:hidden">{item.shortName.toUpperCase()}</span>
+              <span className="w-9 h-9 rounded-lg bg-zinc-900 text-white flex items-center justify-center text-sm font-bold tracking-tight">
+                VR
               </span>
-
-              {/* Animated glowing underline */}
-              {active && (
-                <motion.div
-                  layoutId="navUnderline"
-                  className="absolute bottom-0.5 left-1.5 right-1.5 sm:left-4 sm:right-4 h-[2px]"
-                  transition={{
-                    type: "spring",
-                    stiffness: 400,
-                    damping: 30,
-                  }}
-                >
-                  {/* Glow layer */}
-                  <div className="absolute inset-0 bg-[#e8dcc8] blur-[5px] opacity-70 rounded-full" />
-                  {/* Solid line */}
-                  <div className="relative h-full bg-[#e8dcc8] rounded-full" />
-                </motion.div>
-              )}
+              <div className="hidden sm:flex flex-col -gap-0.5">
+                <span className="text-sm font-semibold text-zinc-900 leading-tight">
+                  Vinay Ratnakar
+                </span>
+                <span className="text-[11px] text-zinc-400 leading-tight">
+                  Creative Developer
+                </span>
+              </div>
             </button>
-          );
-        })}
-      </motion.nav>
-    </div>
+
+            {/* Desktop Nav */}
+            <nav className="hidden md:flex items-center gap-1">
+              {navItems.map((item) => {
+                const active = isItemActive(item);
+                return (
+                  <button
+                    key={item.name}
+                    onClick={() => handleNavigation(item)}
+                    className="relative px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer group"
+                  >
+                    <span
+                      className={`text-[13.5px] font-medium tracking-[-0.01em] transition-colors duration-200 ${
+                        active
+                          ? "text-zinc-900 font-semibold"
+                          : "text-zinc-500 hover:text-zinc-900"
+                      }`}
+                    >
+                      {item.name}
+                    </span>
+
+                    {/* Active underline */}
+                    {active && (
+                      <motion.div
+                        layoutId="navActiveBar"
+                        className="absolute bottom-0 left-3 right-3 h-[2px] bg-zinc-900 rounded-full"
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 30,
+                        }}
+                      />
+                    )}
+                  </button>
+                );
+              })}
+            </nav>
+
+            {/* CTA + Mobile Toggle */}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={scrollToConnect}
+                className="hidden sm:flex items-center gap-1.5 px-4 py-2 rounded-full bg-zinc-900 text-white text-[13px] font-medium hover:bg-zinc-800 active:scale-[0.97] transition-all duration-200 shadow-sm cursor-pointer"
+              >
+                Let&apos;s Talk
+                <svg
+                  width="13"
+                  height="13"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </button>
+
+              {/* Mobile hamburger */}
+              <button
+                onClick={() => setMobileOpen(!mobileOpen)}
+                className="md:hidden flex flex-col gap-1.5 p-2 cursor-pointer"
+                aria-label="Toggle menu"
+              >
+                <motion.span
+                  animate={mobileOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
+                  className="block w-5 h-[2px] bg-zinc-700 rounded-full"
+                />
+                <motion.span
+                  animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }}
+                  className="block w-5 h-[2px] bg-zinc-700 rounded-full"
+                />
+                <motion.span
+                  animate={mobileOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
+                  className="block w-5 h-[2px] bg-zinc-700 rounded-full"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </motion.header>
+
+      {/* Mobile Nav Dropdown */}
+      {mobileOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          className="fixed top-16 left-0 right-0 bg-white/95 backdrop-blur-xl border-b border-zinc-200 z-40 md:hidden shadow-lg"
+        >
+          <div className="px-6 py-4 flex flex-col gap-1">
+            {navItems.map((item) => {
+              const active = isItemActive(item);
+              return (
+                <button
+                  key={item.name}
+                  onClick={() => handleNavigation(item)}
+                  className={`text-left px-4 py-3 rounded-lg text-[14px] font-medium transition-all cursor-pointer ${
+                    active
+                      ? "text-zinc-900 bg-zinc-100 font-semibold"
+                      : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50"
+                  }`}
+                >
+                  {item.name}
+                </button>
+              );
+            })}
+            <button
+              onClick={scrollToConnect}
+              className="mt-2 px-4 py-2.5 rounded-full bg-zinc-900 text-white text-[13px] font-semibold text-center flex items-center justify-center gap-1.5 cursor-pointer"
+            >
+              Let&apos;s Talk
+              <svg
+                width="13"
+                height="13"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </motion.div>
+      )}
+    </>
   );
 }
