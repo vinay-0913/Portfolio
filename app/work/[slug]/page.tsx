@@ -113,12 +113,12 @@ export default function WorkDetailPage({
   }, [resolvedParams.slug]);
 
   return (
-    <main className="relative min-h-screen bg-white text-zinc-900 overflow-x-hidden">
+    <main className="relative min-h-screen text-zinc-900 overflow-x-hidden" style={{ backgroundColor: "#f7f7f5" }}>
       {/* Fixed Navigation */}
       <Navbar />
 
       {/* Hero Showcase Frame */}
-      <div className="sticky top-2 sm:top-12 md:top-16 h-[38vh] sm:h-[65vh] md:h-[80vh] w-full flex items-center justify-center px-4 sm:px-8 md:px-12 pt-2 sm:pt-8 md:pt-10 z-0 pointer-events-none">
+      <div className="sticky top-[60px] sm:top-[60px] md:top-[72px] h-[38vh] sm:h-[65vh] md:h-[80vh] w-full flex items-center justify-center px-4 sm:px-8 md:px-12 pt-2 sm:pt-8 md:pt-10 z-0 pointer-events-none">
         <motion.div
           style={{
             scale: heroScale,

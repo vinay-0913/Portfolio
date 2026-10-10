@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, Dancing_Script } from "next/font/google";
+import { Inter, Playfair_Display, Dancing_Script, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 import { Toaster } from "react-hot-toast";
 
-/* FONTS */
+/* FONTS — per DESIGN.md substitutes:
+   Inter → figmaSans (variable weights closely match)
+   JetBrains Mono → figmaMono (eyebrows + captions)
+   Playfair Display → editorial accent
+   Dancing Script → handwritten annotations */
 const dancing = Dancing_Script({
   subsets: ["latin"],
   weight: ["400", "600"],
@@ -22,6 +26,11 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
 });
 
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+});
+
 export const metadata: Metadata = {
   title: "Vinay Ratnakar — Creative Developer & Software Engineer",
   description:
@@ -36,7 +45,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${playfair.variable} ${dancing.variable} h-full antialiased`}
+      className={`${inter.variable} ${playfair.variable} ${dancing.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <head>
         <link
