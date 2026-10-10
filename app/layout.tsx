@@ -35,6 +35,10 @@ export const metadata: Metadata = {
   title: "Vinay Ratnakar — Creative Developer & Software Engineer",
   description:
     "I design and develop modern web applications that deliver seamless, meaningful and human-centered experiences.",
+  icons: {
+    icon: "/logoi.png?v=3",
+    apple: "/logoi.png?v=3",
+  },
 };
 
 export default function RootLayout({

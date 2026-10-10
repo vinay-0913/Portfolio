@@ -1,8 +1,9 @@
 "use client";
 
 import { motion, useInView, useAnimation } from "framer-motion";
-import type { Variants } from "framer-motion";
 import { useEffect, useRef } from "react";
+
+import type { Variants } from "framer-motion";
 
 const charVariants: Variants = {
   hidden: (_i: number) => ({
@@ -17,7 +18,7 @@ const charVariants: Variants = {
     transition: {
       delay: i * 0.04,
       duration: 0.6,
-      ease: [0.39, 0.575, 0.565, 1] as [number, number, number, number], // sine.out
+      ease: [0.39, 0.575, 0.565, 1] as [number, number, number, number],
     },
   }),
 };

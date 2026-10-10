@@ -5,14 +5,16 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { Playfair_Display } from "next/font/google";
 
+import type { Variants } from "framer-motion";
+
 const playfair = Playfair_Display({
   subsets: ["latin"],
   style: ["italic", "normal"],
 });
 
 // Wave color-shift char animation (Framer Motion equivalent of GSAP SplitText)
-const charVariants = {
-  hidden: (i: number) => ({
+const charVariants: Variants = {
+  hidden: (_i: number) => ({
     y: 40,
     opacity: 0,
     color: "#00FF66",
@@ -24,7 +26,7 @@ const charVariants = {
     transition: {
       delay: i * 0.04,
       duration: 0.6,
-      ease: [0.39, 0.575, 0.565, 1], // sine.out
+      ease: [0.39, 0.575, 0.565, 1] as [number, number, number, number],
     },
   }),
 };
